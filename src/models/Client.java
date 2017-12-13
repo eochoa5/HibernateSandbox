@@ -1,25 +1,52 @@
 package models;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 
-@Entity
+@Entity(name="Clients")
 public class Client {
-	@Id
+	
+	@Id @GeneratedValue(strategy=GenerationType.AUTO)
 	private int clientId;
+	
 	private String first, last;
 	private Date joinDate;
 	
-	public Client(int id, String first, String last) {
-		this.clientId = id;
+	@ManyToMany(cascade=CascadeType.PERSIST)
+	private Collection<Friend> friends = new ArrayList<>();
+	
+	public Client(String first, String last) {
 		this.first = first;
 		this.last = last;
 		this.joinDate= new Date();
-		
+			
+	}
+	
+	public void addFriend(Friend f) {
+		this.friends.add(f);
+		f.getClients().add(this);
 		
 	}
+
+	
+
+	public Collection<Friend> getFriends() {
+		return friends;
+	}
+
+	public void setFriends(Collection<Friend> friends) {
+		this.friends = friends;
+	}
+
+
 
 	public int getClientId() {
 		return clientId;
