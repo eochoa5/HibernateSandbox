@@ -45,12 +45,6 @@ public class HibernateDriver {
 			session.persist(client3);
 			session.persist(client4);
 			
-			//session.save(edwinAsFriend);
-			//session.save(gokuAsFriend);
-			//session.save(arnoldAsFriend);
-			//session.save(markAsFriend);
-			
-	
 			trans.commit();
 			
 		}catch(Exception e) {
