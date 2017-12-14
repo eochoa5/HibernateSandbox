@@ -32,7 +32,7 @@
 		<!-- Model classes -->
         <mapping class="models.Client"/>
         <mapping class="models.Friend"/>
-
+        
     </session-factory>
 
 </hibernate-configuration>

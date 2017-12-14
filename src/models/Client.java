@@ -20,8 +20,10 @@ public class Client {
 	private String first, last;
 	private Date joinDate;
 	
-	@ManyToMany(cascade=CascadeType.PERSIST)
+	@ManyToMany(cascade=CascadeType.ALL)
 	private Collection<Friend> friends = new ArrayList<>();
+	
+	public Client() {}
 	
 	public Client(String first, String last) {
 		this.first = first;

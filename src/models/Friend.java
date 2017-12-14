@@ -28,6 +28,10 @@ public class Friend {
 		
 	}
 	
+	public Friend() {
+		
+	}
+	
 	
 	public Collection<Client> getClients() {
 		return clients;
