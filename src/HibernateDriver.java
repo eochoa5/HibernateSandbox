@@ -1,10 +1,12 @@
 import java.util.ArrayList;
 import java.util.List;
 
+import org.hibernate.query.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
+
 
 import models.Client;
 import models.Friend;
@@ -12,6 +14,7 @@ import models.Friend;
 public class HibernateDriver {
 
 	public static void main(String[] args) {
+		
 		
 		Client client1 = new Client("Edwin", "Ochoa");
 		Client client2 = new Client("Goku", "Supersaiyan");
@@ -21,6 +24,8 @@ public class HibernateDriver {
 		
 		
 		SessionFactory sessionFactory = new Configuration().configure().buildSessionFactory();
+		
+		
 		Session session = sessionFactory.openSession();
 		
 		Transaction trans = null;
@@ -66,10 +71,51 @@ public class HibernateDriver {
 		}
 		
 		
-		retrieveData(sessionFactory);
+		
+		//retrieveData(sessionFactory);
+		
+		//hqlSelectAll(sessionFactory);
 		
 		
 		
+	}
+	
+	public static void hqlSelectAll(SessionFactory sessionFactory) {
+		
+		Session session = sessionFactory.openSession();
+		
+		Transaction trans = null;
+		
+		try {
+			trans = session.beginTransaction();
+			
+			Query<?> query = session.createQuery("from Clients");
+			List<Client> myClients =  (List<Client>) query.list();
+			
+			for (Client c: myClients) {
+				System.out.println("\n" + c.getFirst() + ", "+ c.getLast());
+				System.out.println("\n\n Friends: ");
+				
+				for(Friend f: c.getFriends()) {
+					
+					Client c1 = (Client) session.get(Client.class, f.getFriendId());
+					
+					System.out.println(c1.getFirst() + ", " + c1.getLast());
+					
+				}
+				
+			}
+			
+			trans.commit();
+			
+		}catch(Exception e) {
+			if (trans != null) trans.rollback();
+			   e.printStackTrace();
+			
+		}finally {
+			session.close();
+		}
+			
 	}
 	
 	public static void retrieveData(SessionFactory sessionFactory) {
